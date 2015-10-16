@@ -1014,9 +1014,9 @@ public class Workspace extends SmoothPagedView
             child.setOnKeyListener(new HotseatIconKeyEventListener());
 
             // Hide folder title in the hotseat
-            if (child instanceof FolderIcon) {
-                ((FolderIcon) child).setTextVisible(false);
-            }
+            // if (child instanceof FolderIcon) {
+            //     ((FolderIcon) child).setTextVisible(false);
+            // }
 
             if (computeXYFromRank) {
                 x = mLauncher.getHotseat().getCellXFromOrder((int) screenId);

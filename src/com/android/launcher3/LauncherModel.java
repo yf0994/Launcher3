@@ -2107,6 +2107,10 @@ public class LauncherModel extends BroadcastReceiver
                                     info.isDisabled = disabledState;
                                     if (isSafeMode && !Utilities.isSystemApp(context, intent)) {
                                         info.isDisabled |= ShortcutInfo.FLAG_DISABLED_SAFEMODE;
+
+                                    }
+                                    if(!Utilities.isSystemApp(context, intent)){
+                                        info.flags = 1;
                                     }
 
                                     // check & update map of what's occupied

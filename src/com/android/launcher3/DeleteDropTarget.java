@@ -178,8 +178,9 @@ public class DeleteDropTarget extends ButtonDropTarget {
     @Override
     public void onDragStart(DragSource source, Object info, int dragAction) {
         boolean isVisible = true;
-        boolean useUninstallLabel = !LauncherAppState.isDisableAllApps() &&
-                isAllAppsApplication(source, info);
+        // boolean useUninstallLabel = !LauncherAppState.isDisableAllApps() &&
+        //         isAllAppsApplication(source, info);
+        boolean useUninstallLabel = LauncherAppState.isDisableAllApps();
         boolean useDeleteLabel = !useUninstallLabel && source.supportsDeleteDropTarget();
 
         // If we are dragging an application from AppsCustomize, only show the control if we can
@@ -285,7 +286,7 @@ public class DeleteDropTarget extends ButtonDropTarget {
         if (LauncherAppState.isDisableAllApps() && isWorkspaceOrFolderApplication(d)) {
             ShortcutInfo shortcut = (ShortcutInfo) d.dragInfo;
             // Only allow manifest shortcuts to initiate an un-install.
-            return !InstallShortcutReceiver.isValidShortcutLaunchIntent(shortcut.intent);
+            return InstallShortcutReceiver.isValidShortcutLaunchIntent(shortcut.intent);
         }
         return false;
     }

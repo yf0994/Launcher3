@@ -63,8 +63,8 @@
     <!-- Dialer, Contacts, [All Apps], Messaging, Browser -->
     <resolve
         launcher:container="-101"
-        launcher:screen="1"
-        launcher:x="1"
+        launcher:screen="0"
+        launcher:x="0"
         launcher:y="0" >
         <favorite launcher:uri="#Intent;action=android.intent.action.DIAL;end" />
         <favorite launcher:uri="tel:123" />
@@ -79,14 +79,14 @@
         launcher:packageName="com.android.contacts"
         launcher:className="com.android.contacts.activities.PeopleActivity"
         launcher:container="-101"
-        launcher:screen="2"
-        launcher:x="2"
+        launcher:screen="1"
+        launcher:x="1"
         launcher:y="0" />
 
     <resolve
         launcher:container="-101"
-        launcher:screen="4"
-        launcher:x="4"
+        launcher:screen="2"
+        launcher:x="2"
         launcher:y="0" >
         <favorite
             launcher:uri="#Intent;action=android.intent.action.MAIN;category=android.intent.category.APP_MESSAGING;end" />
@@ -101,8 +101,8 @@
     </resolve>
     <resolve
         launcher:container="-101"
-        launcher:screen="5"
-        launcher:x="5"
+        launcher:screen="3"
+        launcher:x="3"
         launcher:y="0" >
         <favorite
             launcher:uri="#Intent;action=android.intent.action.MAIN;category=android.intent.category.APP_BROWSER;end" />
