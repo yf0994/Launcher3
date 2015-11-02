@@ -302,8 +302,9 @@ public class CellLayout extends ViewGroup {
         mShortcutsAndWidgets.buildLayer();
     }
 
+    //Set hotseat icon scale to 1.0f.
     public float getChildrenScale() {
-        return mIsHotseat ? mHotseatScale : 1.0f;
+        return mIsHotseat ? 1.0f : 1.0f;
     }
 
     public void setCellDimensions(int width, int height) {

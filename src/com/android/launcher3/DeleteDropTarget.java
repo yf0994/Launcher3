@@ -180,8 +180,23 @@ public class DeleteDropTarget extends ButtonDropTarget {
         boolean isVisible = true;
         // boolean useUninstallLabel = !LauncherAppState.isDisableAllApps() &&
         //         isAllAppsApplication(source, info);
-        boolean useUninstallLabel = LauncherAppState.isDisableAllApps();
-        boolean useDeleteLabel = !useUninstallLabel && source.supportsDeleteDropTarget();
+
+        boolean temp = false;
+        boolean useUninstallLabel = false;
+        boolean useDeleteLabel = false;
+        if(info instanceof LauncherAppWidgetInfo){
+            temp = true;
+        }
+
+        if(!temp && (info instanceof ShortcutInfo)){
+            useUninstallLabel = true;
+        }
+
+        if(temp){
+            useDeleteLabel = true;
+        }
+//        boolean useUninstallLabel = LauncherAppState.isDisableAllApps();
+//        boolean useDeleteLabel = !useUninstallLabel && source.supportsDeleteDropTarget();
 
         // If we are dragging an application from AppsCustomize, only show the control if we can
         // delete the app (it was downloaded), and rename the string to "uninstall" in such a case.

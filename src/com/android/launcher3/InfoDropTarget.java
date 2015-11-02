@@ -83,6 +83,8 @@ public class InfoDropTarget extends ButtonDropTarget {
             componentName = ((ShortcutInfo) d.dragInfo).intent.getComponent();
         } else if (d.dragInfo instanceof PendingAddItemInfo) {
             componentName = ((PendingAddItemInfo) d.dragInfo).componentName;
+        } else if (d.dragInfo instanceof  LauncherAppWidgetInfo){
+            componentName = ((LauncherAppWidgetInfo)d.dragInfo).providerName;
         }
         final UserHandleCompat user;
         if (d.dragInfo instanceof ItemInfo) {
@@ -97,6 +99,7 @@ public class InfoDropTarget extends ButtonDropTarget {
 
         // There is no post-drop animation, so clean up the DragView now
         d.deferDragViewCleanupPostAnimation = false;
+        d.cancelled = true;
         return false;
     }
 
