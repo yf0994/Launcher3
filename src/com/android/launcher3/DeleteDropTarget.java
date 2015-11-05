@@ -21,6 +21,7 @@ import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -188,6 +189,12 @@ public class DeleteDropTarget extends ButtonDropTarget {
             temp = true;
         }
 
+        if((info instanceof ShortcutInfo) &&
+                (((ShortcutInfo) info).getIntent().getAction() == null || !((ShortcutInfo) info).getIntent().getAction().equals(Intent.ACTION_MAIN))
+                && !((ShortcutInfo)info).getIntent().hasCategory(Intent.CATEGORY_LAUNCHER)){
+            temp = true;
+        }
+
         if(!temp && (info instanceof ShortcutInfo)){
             useUninstallLabel = true;
         }
@@ -298,7 +305,12 @@ public class DeleteDropTarget extends ButtonDropTarget {
     }
 
     private boolean isUninstallFromWorkspace(DragObject d) {
-        if (LauncherAppState.isDisableAllApps() && isWorkspaceOrFolderApplication(d)) {
+        if (LauncherAppState.isDisableAllApps() && isWorkspaceOrFolderApplication(d)
+                && (((ShortcutInfo) d.dragInfo).getIntent() != null)
+                && (((ShortcutInfo) d.dragInfo).getIntent().getAction() != null)
+                && (((ShortcutInfo) d.dragInfo).getIntent().getAction().equals(Intent.ACTION_MAIN))
+                && (((ShortcutInfo) d.dragInfo).getIntent().hasCategory(Intent.CATEGORY_LAUNCHER))
+        ) {
             ShortcutInfo shortcut = (ShortcutInfo) d.dragInfo;
             // Only allow manifest shortcuts to initiate an un-install.
             return InstallShortcutReceiver.isValidShortcutLaunchIntent(shortcut.intent);

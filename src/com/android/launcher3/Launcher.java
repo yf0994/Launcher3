@@ -1185,10 +1185,10 @@ public class Launcher extends Activity
     }
 
     protected boolean hasSettings() {
-        if (mLauncherCallbacks != null) {
-            return mLauncherCallbacks.hasSettings();
-        }
-        return false;
+//        if (mLauncherCallbacks != null) {
+//            return mLauncherCallbacks.hasSettings();
+//        }
+        return true;
     }
 
 

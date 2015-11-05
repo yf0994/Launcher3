@@ -730,6 +730,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         } else {
             mLauncher.unlockScreenOrientation(false);
         }
+
     }
 
     @Override
@@ -801,6 +802,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         }
         cleanupWidgetPreloading(success);
         mDraggingWidget = false;
+        mLauncher.getWorkspace().exitOverviewMode(true);
     }
 
     @Override
