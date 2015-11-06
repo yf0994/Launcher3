@@ -304,7 +304,7 @@ public class CellLayout extends ViewGroup {
 
     //Set hotseat icon scale to 1.0f.
     public float getChildrenScale() {
-        return mIsHotseat ? 1.0f : 1.0f;
+        return mIsHotseat ? 0.9f : 0.9f;
     }
 
     public void setCellDimensions(int width, int height) {
@@ -599,7 +599,10 @@ public class CellLayout extends ViewGroup {
         // Hotseat icons - remove text
         if (child instanceof BubbleTextView) {
             BubbleTextView bubbleChild = (BubbleTextView) child;
-            bubbleChild.setTextVisibility(!mIsHotseat);
+            bubbleChild.setTextVisibility(true);
+//            if(mIsHotseat){
+//                bubbleChild.setTextVisibility(true);
+//            }
         }
 
         child.setScaleX(getChildrenScale());
