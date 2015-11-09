@@ -338,7 +338,7 @@ public class Workspace extends SmoothPagedView
                 getDeviceProfile().shouldFadeAdjacentWorkspaceScreens();
         mFadeInAdjacentScreens = false;
         mWallpaperManager = WallpaperManager.getInstance(context);
-
+        TransitionEffect.setFromString(this, TransitionEffect.TRANSITION_EFFECT_CUBE_OUT);
         LauncherAppState app = LauncherAppState.getInstance();
         DeviceProfile grid = app.getDynamicGrid().getDeviceProfile();
         TypedArray a = context.obtainStyledAttributes(attrs,

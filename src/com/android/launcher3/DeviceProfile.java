@@ -385,9 +385,9 @@ public class DeviceProfile {
         dragViewScale = (iconSizePx + scaleDps) / iconSizePx;
 
         // Hotseat
-        hotseatBarHeightPx = iconSizePx + 7 * edgeMarginPx;
+        hotseatBarHeightPx = iconSizePx + 4 * edgeMarginPx;
         hotseatCellWidthPx = iconSizePx;
-        hotseatCellHeightPx = iconSizePx;
+        hotseatCellHeightPx = (int)(iconSizePx * 1.5);
 
         // Folder
         folderCellWidthPx = cellWidthPx + 3 * edgeMarginPx;
@@ -511,9 +511,9 @@ public class DeviceProfile {
     /** Returns the search bar top offset */
     int getSearchBarTopOffset() {
         if (isTablet() && !isVerticalBarLayout()) {
-            return 4 * edgeMarginPx;
+            return 0;
         } else {
-            return 2 * edgeMarginPx;
+            return 0;
         }
     }
 

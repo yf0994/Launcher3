@@ -802,7 +802,9 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         }
         cleanupWidgetPreloading(success);
         mDraggingWidget = false;
+        mLauncher.showOverviewMode(true);
         mLauncher.getWorkspace().exitOverviewMode(true);
+
     }
 
     @Override
