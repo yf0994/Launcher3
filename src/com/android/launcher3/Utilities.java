@@ -32,12 +32,17 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PaintDrawable;
@@ -196,13 +201,13 @@ public final class Utilities {
             final int top = (textureHeight-height) / 2;
 
             @SuppressWarnings("all") // suppress dead code warning
-            final boolean debug = false;
+            final boolean debug = true;
             if (debug) {
                 // draw a big box for the icon for debugging
-                canvas.drawColor(sColors[sColorIndex]);
-                if (++sColorIndex >= sColors.length) sColorIndex = 0;
+//                canvas.drawColor(sColors[sColorIndex]);
+//                if (++sColorIndex >= sColors.length) sColorIndex = 0;
                 Paint debugPaint = new Paint();
-                debugPaint.setColor(0xffcccc00);
+                debugPaint.setColor(0xffffffff);
                 canvas.drawRect(left, top, left+width, top+height, debugPaint);
             }
 
@@ -212,8 +217,108 @@ public final class Utilities {
             icon.setBounds(sOldBounds);
             canvas.setBitmap(null);
 
-            return bitmap;
+            return getRoundImage(bitmap, 80);
         }
+    }
+
+    public static Bitmap getRoundImage(Bitmap srcBitmap, float ret) {
+
+        if(null == srcBitmap){
+            Log.e(TAG, "the srcBitmap is null");
+            return null;
+        }
+
+        int bitWidth = srcBitmap.getWidth();
+        int bitHight = srcBitmap.getHeight();
+
+        BitmapShader bitmapShader = new BitmapShader(srcBitmap,
+                Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setShader(bitmapShader);
+
+        RectF rectf = new RectF(0, 0, bitWidth, bitHight);
+
+        Bitmap outBitmap = Bitmap.createBitmap(bitWidth, bitHight,
+                Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(outBitmap);
+        canvas.drawRoundRect(rectf, ret, ret, paint);
+        canvas.save();
+        canvas.restore();
+
+        return outBitmap;
+    }
+
+    public static Bitmap createReflectedBitmap(Bitmap srcBitmap,int reflectionHeight) {
+
+        if (null == srcBitmap) {
+            return null;
+        }
+
+        // The gap between the reflection bitmap and original bitmap.
+        final int REFLECTION_GAP = 0;
+
+        int srcWidth = srcBitmap.getWidth();
+        int srcHeight = srcBitmap.getHeight();
+
+        if (0 == srcWidth || srcHeight == 0) {
+            return null;
+        }
+
+        // The matrix
+        Matrix matrix = new Matrix();
+        matrix.preScale(1, -1);
+
+        try {
+
+            // The reflection bitmap, width is same with original's, height is
+            // half of original's.
+            Bitmap reflectionBitmap = Bitmap.createBitmap(srcBitmap, 0, srcHeight - reflectionHeight,
+                    srcWidth, reflectionHeight, matrix, false);
+
+            if (null == reflectionBitmap) {
+                return null;
+            }
+            // Create the bitmap which contains original and reflection bitmap.
+            Bitmap bitmapWithReflection = Bitmap.createBitmap(srcWidth, srcHeight + reflectionHeight,
+                    Bitmap.Config.ARGB_8888);
+
+            if (null == bitmapWithReflection) {
+                return null;
+            }
+            // Prepare the canvas to draw stuff.
+            Canvas canvas = new Canvas(bitmapWithReflection);
+
+            // Draw the original bitmap.
+            canvas.drawBitmap(srcBitmap, 0, 0, null);
+
+            // Draw the reflection bitmap.
+            canvas.drawBitmap(reflectionBitmap, 0, srcHeight + REFLECTION_GAP,
+                    null);
+
+            Paint paint = new Paint();
+            paint.setAntiAlias(true);
+            LinearGradient shader = new LinearGradient(0, srcHeight, 0,
+                    bitmapWithReflection.getHeight() + REFLECTION_GAP,
+                    0x70FFFFFF, 0x00FFFFFF, Shader.TileMode.MIRROR);
+            paint.setShader(shader);
+            paint.setXfermode(new PorterDuffXfermode(
+                    android.graphics.PorterDuff.Mode.DST_IN));
+
+            canvas.save();
+            // Draw the linear shader.
+            canvas.drawRect(0, srcHeight, srcWidth,
+                    bitmapWithReflection.getHeight() + REFLECTION_GAP, paint);
+            if (reflectionBitmap != null && !reflectionBitmap.isRecycled()){
+                reflectionBitmap.recycle();
+                reflectionBitmap = null;
+            }
+            canvas.restore();
+            return bitmapWithReflection;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**

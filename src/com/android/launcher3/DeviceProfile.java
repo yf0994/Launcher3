@@ -617,7 +617,7 @@ public class DeviceProfile {
             } else {
                 // Pad the top and bottom of the workspace with search/hotseat bar sizes
                 padding.set(desiredWorkspaceLeftRightMarginPx - defaultWidgetPadding.left,
-                        searchBarBounds.bottom,
+                        searchBarBounds.bottom / 2,
                         desiredWorkspaceLeftRightMarginPx - defaultWidgetPadding.right,
                         hotseatBarHeightPx + pageIndicatorHeightPx);
             }
