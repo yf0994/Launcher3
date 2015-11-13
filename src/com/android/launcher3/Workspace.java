@@ -4447,7 +4447,7 @@ public class Workspace extends SmoothPagedView
 
     @Override
     public boolean supportsAppInfoDropTarget() {
-        return true;
+        return false;
     }
 
     @Override
